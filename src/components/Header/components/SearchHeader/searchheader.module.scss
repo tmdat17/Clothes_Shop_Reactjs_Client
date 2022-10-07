@@ -1,0 +1,47 @@
+.wrapper {
+    margin-top: -13px;
+    margin-bottom: -18px;
+    background-color: #fff;
+    transition: all 3s;
+    animation: slidedown forwards 1.2s;
+
+    padding: 40px 0;
+}
+
+@keyframes slidedown {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.serKey,
+.serPop {
+    text-transform: uppercase;
+    font-weight: 200;
+    text-decoration: none;
+    font-size: 1.5rem;
+    margin: 0 1rem 0 1rem;
+    color: #7380c4;
+    transition: border 0.5s ease-out;
+    padding: 0 5px 0 5px;
+}
+
+.serKey:hover,
+.serPop:hover {
+    box-shadow: 3px 2px 4px #888888;
+}
+
+.serForm {
+    width: 95%;
+}
+
+.tiltePop {
+    text-align: start;
+    margin-left: 3.5%;
+    margin-bottom: 0.5%;
+    font-weight: 200;
+    font-size: 1.5rem;
+}

@@ -1,0 +1,47 @@
+.navHeader {
+    margin-top: -15px;
+    margin-bottom: -18px;
+}
+
+.navHeaderItem {
+    position: relative;
+}
+
+.navHeaderItem:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2px;
+    width: 0;
+    background-color: #777474;
+    transition: all 0.25s ease-in;
+}
+
+.navHeaderItem:hover:before {
+    width: 100%;
+}
+
+.wrapper_icons_header {
+    height: 4.5rem;
+    background-color: #f8f9fa;
+    margin-bottom: -20px;
+}
+.navIcons {
+    // background-color: bisque;
+    margin-top: -3%;
+    padding: 1%;
+    font-size: 1.3rem;
+    font-style: italic;
+}
+
+.icon {
+    color: #81808e;
+    font-weight: 400;
+    transition: 0.5s ease;
+}
+
+.icon:hover {
+    color: black;
+}

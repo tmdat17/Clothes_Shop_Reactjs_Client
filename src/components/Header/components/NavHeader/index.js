@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import styles from './navheader.module.scss';
 import Container from 'react-bootstrap/Container';
@@ -17,7 +18,9 @@ function NavHeader() {
         <>
             <div className={' ' + clsx(styles.wrapper_icons_header)}>
                 <div className="text-center h-3">
-                    <img src={logolevent} alt="logoLevent" className="img-fluid mt-2 mt-sm-3 mt-md-3" />
+                    <Link to="/">
+                        <img src={logolevent} alt="logoLevent" className="img-fluid mt-2 mt-sm-3 mt-md-3" />
+                    </Link>
                 </div>
                 <Nav className={' mx-3 ' + clsx(styles.navIcons)}>
                     <Nav.Item>
@@ -41,7 +44,7 @@ function NavHeader() {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href="/home">
+                        <Nav.Link as={Link} to="my_account/login">
                             <Person className={styles.icon} />
                         </Nav.Link>
                     </Nav.Item>
@@ -60,7 +63,7 @@ function NavHeader() {
                             className={' me-auto my-2 my-lg-0 w-100 d-flex justify-content-between '}
                             navbarScroll
                         >
-                            <Nav.Link href="/home" className={' ' + clsx(styles.navHeaderItem)}>
+                            <Nav.Link as={Link} to={'about_us'} className={' ' + clsx(styles.navHeaderItem)}>
                                 Về chúng tôi
                             </Nav.Link>
 

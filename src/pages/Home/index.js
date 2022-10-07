@@ -4,7 +4,7 @@ function Home() {
     return (
         <div style={{ width: '100%', height: 'auto' }}>
             <Ratio aspectRatio="16x9">
-                <video type="video/mp4" src={videoAds} autoPlay loop muted />
+                <video style={{ width: '100%', height: '100%' }} type="video/mp4" src={videoAds} autoPlay loop muted />
             </Ratio>
         </div>
     );

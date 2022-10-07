@@ -1,0 +1,49 @@
+.signupForm a {
+    text-decoration: none;
+}
+
+.signupForm .inputInfor {
+    outline: none;
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 20px;
+    color: black;
+    font-weight: bold;
+}
+
+.signupBtn {
+    display: inline-block;
+    background-color: transparent;
+    color: blue;
+    font-weight: 300;
+    position: relative;
+    border: none;
+    outline: none;
+}
+
+.signupBtn:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 0;
+    width: 100%;
+    background-color: black;
+    z-index: -1;
+    transition: height 0.25s ease-in;
+}
+
+.signupBtn:hover {
+    color: white;
+}
+
+.signupBtn:hover:before {
+    height: 100%;
+}
+
+.signupForm p {
+    font-size: 17px;
+    font-weight: normal;
+    width: 20rem;
+}

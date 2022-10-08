@@ -1,4 +1,5 @@
 import { Routes, Route, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import clsx from 'clsx';
 import styles from './about_us.module.scss';
 import { Row, Col, Container } from 'react-bootstrap';
@@ -9,6 +10,10 @@ import banner_3 from '~/assets/banner_girl_3.png';
 
 import { Home } from '~/pages';
 function AboutUs() {
+    useEffect(() => {
+        document.title = 'Về chúng tôi';
+    }, []);
+
     return (
         <>
             <div className="mt-3 ms-3 ">

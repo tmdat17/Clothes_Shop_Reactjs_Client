@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GlobalStyles from './components/GlobalStyles';
 import Header from '~/components/Header';
@@ -14,8 +14,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about_us" element={<AboutUs />} />
-                    <Route path="my_account/login" element={<Login />} />
-                    <Route path="my_account/sign_up" element={<Signup />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/sign_up" element={<Signup />} />
                 </Routes>
                 <Footer />
             </div>

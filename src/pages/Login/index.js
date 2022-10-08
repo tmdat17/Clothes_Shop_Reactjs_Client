@@ -1,9 +1,13 @@
+import { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import clsx from 'clsx';
 import styles from './login.module.scss';
 import { Link } from 'react-router-dom';
 
 function Login() {
+    useEffect(() => {
+        document.title = 'Đăng nhập';
+    }, []);
     return (
         <>
             <Container fluid>
@@ -18,7 +22,7 @@ function Login() {
                         <div className="">
                             <p className="fs-4 text" style={{ fontWeight: '300' }}>
                                 Bạn chưa có tài khoản?
-                                <Link to="my_account/sign_up">Đăng ký</Link>
+                                <Link to="/sign_up">Đăng ký</Link>
                             </p>
                             <input
                                 type="tel"

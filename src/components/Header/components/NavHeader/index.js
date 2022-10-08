@@ -44,7 +44,7 @@ function NavHeader() {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link as={Link} to="my_account/login">
+                        <Nav.Link as={Link} to="login">
                             <Person className={styles.icon} />
                         </Nav.Link>
                     </Nav.Item>

@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
 import clsx from 'clsx';
 import styles from './signup.module.scss';
 import { Col, Container, Row } from 'react-bootstrap';
 
 function Signup() {
+    useEffect(() => {
+        document.title = 'Đăng ký';
+    }, []);
     return (
         <Container fluid>
             <div className={' my-3 my-sm-3 my-md-5 ' + clsx(styles.signupForm)}>

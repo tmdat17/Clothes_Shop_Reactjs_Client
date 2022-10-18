@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import clsx from 'clsx';
 import styles from './about_us.module.scss';
@@ -8,7 +8,6 @@ import banner_1 from '~/assets/banner_girl_1.jpg';
 import banner_2 from '~/assets/banner_girl_2.jpg';
 import banner_3 from '~/assets/banner_girl_3.png';
 
-import { Home } from '~/pages';
 function AboutUs() {
     useEffect(() => {
         document.title = 'Về chúng tôi';
@@ -21,6 +20,7 @@ function AboutUs() {
                     <Breadcrumb.Item linkAs="li" as={Link} to={'/'}>
                         Trang chủ
                     </Breadcrumb.Item>
+
                     <Breadcrumb.Item active>Về chúng tôi</Breadcrumb.Item>
                 </Breadcrumb>
                 <h2 className="fs-4 fw-normal text-center text-uppercase">Về chúng tôi</h2>

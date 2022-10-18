@@ -72,6 +72,10 @@ function NavHeader() {
                                 id="navbarScrollingDropdown"
                                 className={clsx(styles.navHeaderItem)}
                             >
+                                <NavDropdown.Item as={Link} to="/shop">
+                                    Tất cả
+                                </NavDropdown.Item>
+                                <NavDropdown.Divider />
                                 <NavDropdown.Item href="/home">T-Shirt</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="/home">Polo</NavDropdown.Item>

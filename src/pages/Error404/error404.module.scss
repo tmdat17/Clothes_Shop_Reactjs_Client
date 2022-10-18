@@ -1,0 +1,38 @@
+.errorContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 50px 0;
+
+    .content {
+        border: 1px solid #333;
+        border-radius: 20px;
+        background-color: #f5f5f5;
+        height: 350px;
+        text-align: center;
+        padding: 5px 20px;
+        box-shadow: 0 0 10px rgba(51, 51, 51, 0.416);
+        .title {
+            font-size: 6rem;
+            font-weight: 200;
+        }
+        .revise {
+            font-style: italic;
+            font-weight: 100;
+            font-size: 2rem;
+            margin-bottom: 60px;
+        }
+
+        .btnBackHome {
+            border: 1px solid rgb(110, 26, 26);
+            border-radius: 10px;
+            padding: 10px 30px;
+            color: black;
+            &:hover {
+                background-color: rgb(222, 54, 54);
+                color: white;
+            }
+        }
+    }
+}

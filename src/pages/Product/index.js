@@ -89,6 +89,7 @@ function Product() {
         const newItem = {
             id,
             name: product.name_product,
+            img: product.thumbnail[0],
             size: size,
             quatity: quatity,
         };

@@ -39,7 +39,7 @@ function NavHeader() {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href="/home">
+                        <Nav.Link as={Link} to="/cart">
                             <Cart2 className={styles.icon} />
                         </Nav.Link>
                     </Nav.Item>

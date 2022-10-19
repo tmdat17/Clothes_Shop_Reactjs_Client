@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Plus, Dash, ChevronDoubleUp, ChevronDown } from 'react-bootstrap-icons';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Mousewheel, Scrollbar, A11y, Autoplay, FreeMode, Thumbs, EffectFade } from 'swiper';
+import { Navigation, Mousewheel, Scrollbar, Autoplay, FreeMode, Thumbs, EffectFade } from 'swiper';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -15,35 +14,43 @@ import 'swiper/css/mousewheel';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
-
 import clsx from 'clsx';
 import styles from './product.module.scss';
 
+import { CartContext } from '../../Contexts/CartContext';
+import ProductService from '~/services/ProductService';
 function Product() {
+    // State detail product
     const [product, setProduct] = useState({});
+    const [allProducts, setAllProducts] = useState([]);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [quatity, setQuatity] = useState(1);
+    const [size, setSize] = useState('');
+
+    // Show
     const [showGoToTop, setShowGoToTop] = useState(false);
     const [showInfor, setShowInfor] = useState(false);
     const [showSizeBoard, setShowSizeBoard] = useState(false);
     const [showReturnPolicy, setShowReturnPolicy] = useState(false);
+    const [showThumbnail, setShowThumbnail] = useState(0);
+
     const { id } = useParams();
+    const [idProduct, setIdProduct] = useState(id);
+    const { myCart, setMyCart } = useContext(CartContext);
     useEffect(() => {
-        const getData = async () => {
-            try {
-                let response = await axios.get(`http://localhost:5000/product/${id}`);
-                return response;
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getData()
+        const getDataAllProduct = ProductService.getAllProduct;
+        const getData = ProductService.getOneProduct(idProduct);
+        getData
             .then((res) => {
                 setProduct(res.data);
                 document.title = res.data.name_product;
             })
             .catch((error) => console.log(error));
-    }, []);
+
+        getDataAllProduct()
+            .then((res) => setAllProducts(res.data))
+            .catch((error) => console.log(error));
+    }, [idProduct]);
 
     const increaseQuatity = () => {
         return setQuatity((prev) => {
@@ -69,6 +76,25 @@ function Product() {
         });
     };
 
+    const changeSize = (e) => {
+        console.log('size trong changeSize attri name:  ', e.target.value);
+        setSize(e.target.value);
+    };
+
+    const addToCart = () => {
+        if (size === '') {
+            alert('Size là trường bắt buộc chọn');
+            return;
+        }
+        const newItem = {
+            id,
+            name: product.name_product,
+            size: size,
+            quatity: quatity,
+        };
+        return setMyCart((prev) => [...prev, newItem]);
+    };
+    console.log('myCart:    ', myCart);
     const toggleInfor = () => {
         return setShowInfor(!showInfor);
     };
@@ -79,6 +105,10 @@ function Product() {
 
     const toggleReturnPolicy = () => {
         return setShowReturnPolicy(!showReturnPolicy);
+    };
+
+    const handleHoverImage = (pro_id) => {
+        setShowThumbnail(pro_id);
     };
 
     useEffect(() => {
@@ -191,14 +221,19 @@ function Product() {
                             </li>
                             <li>
                                 Size:
-                                <select className={clsx(styles.formSize)}>
-                                    <option value="" selected="" disabled="">
+                                <select
+                                    className={clsx(styles.formSize)}
+                                    name="size"
+                                    required={true}
+                                    onClick={(e) => changeSize(e)}
+                                >
+                                    <option value="" disabled="">
                                         Chọn Size
                                     </option>
                                     {product.size && product.size.length > 0
                                         ? product.size.map((item, index) => {
                                               return (
-                                                  <option key={index} value={item} selected="" disabled="">
+                                                  <option key={index} value={item} disabled="">
                                                       SIZE {item}
                                                   </option>
                                               );
@@ -214,7 +249,6 @@ function Product() {
                                     </button>
                                     <input
                                         type="text"
-                                        defaultValue={quatity}
                                         value={quatity}
                                         min="0"
                                         max="100"
@@ -227,7 +261,9 @@ function Product() {
                                 </div>
                             </li>
                             <li>
-                                <button className={clsx(styles.addProduct)}>Thêm vào giỏ hàng</button>
+                                <button className={clsx(styles.addProduct)} onClick={addToCart}>
+                                    Thêm vào giỏ hàng
+                                </button>
                             </li>
                         </ul>
                         <hr />
@@ -302,6 +338,49 @@ function Product() {
                     </Col>
                 </Row>
                 <hr />
+
+                {/* slider co the ban se thich  */}
+                <div>
+                    <h5 style={{ fontWeight: 400, textAlign: 'center', margin: '0 0 4rem 0' }}>Có thể bạn sẽ thích</h5>
+                    <Swiper
+                        slidesPerView={4}
+                        spaceBetween={30}
+                        autoplay={true}
+                        loop={true}
+                        loopFillGroupWithBlank={true}
+                        navigation={true}
+                        modules={[Navigation, Autoplay]}
+                        className="mySwiper"
+                    >
+                        {allProducts && allProducts.length > 0
+                            ? allProducts.map((item, index) => {
+                                  return (
+                                      <SwiperSlide
+                                          key={index}
+                                          className="text-center"
+                                          onClick={() => setIdProduct(item._id)}
+                                      >
+                                          {showThumbnail === item.product_id ? (
+                                              <img
+                                                  className={'img-fluid ' + clsx(styles.itemThumbnail)}
+                                                  src={item.thumbnail[1]}
+                                                  alt="error img"
+                                                  onMouseOver={() => handleHoverImage(-item.product_id)}
+                                              />
+                                          ) : (
+                                              <img
+                                                  className={'img-fluid ' + clsx(styles.itemThumbnail)}
+                                                  src={item.thumbnail[0]}
+                                                  alt="error img"
+                                                  onMouseOver={() => handleHoverImage(item.product_id)}
+                                              />
+                                          )}
+                                      </SwiperSlide>
+                                  );
+                              })
+                            : null}
+                    </Swiper>
+                </div>
             </Container>
             {showGoToTop && (
                 <a href="#head" className={clsx(styles.btnBackHeader)}>

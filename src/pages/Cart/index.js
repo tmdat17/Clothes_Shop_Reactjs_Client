@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import { Container, Row, Col } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
@@ -10,9 +11,11 @@ import { CartContext } from '../../Contexts/CartContext';
 function Cart() {
     const { myCart } = useContext(CartContext);
     let myCartAfterUpdate = myCart.slice(1, myCart.length, 1);
+    _.reverse(myCartAfterUpdate);
     console.log('nav myCart:    ', myCartAfterUpdate);
     return (
         <>
+            {console.log('myCart in return:     ')}
             <Breadcrumb id="head">
                 <Breadcrumb.Item linkAs="li" as={Link} to={'/'}>
                     Trang chủ
@@ -23,13 +26,13 @@ function Cart() {
             {myCartAfterUpdate && myCartAfterUpdate.length > 0 ? (
                 <Container fluid>
                     <Row>
-                        <Col>
+                        <Col xs={12} sm={12} md={6}>
                             <h5>GIỎ HÀNG</h5>
                             <ul className={clsx(styles.cart)}>
                                 {myCartAfterUpdate.map((item, index) => {
                                     return (
                                         <li key={index} className={clsx(styles.cardProduct)}>
-                                            <Link to={`/product/${item.id}`}>
+                                            <Link to={`/product/${item.idProduct}`}>
                                                 <img
                                                     className={styles.imgProduct}
                                                     src={item.img}
@@ -37,7 +40,7 @@ function Cart() {
                                                 />
                                             </Link>
                                             <div className={clsx(styles.contentProduct)}>
-                                                <Link to={`/product/${item.id}`}>
+                                                <Link to={`/product/${item.idProduct}`}>
                                                     <p className={clsx(styles.nameProduct)}>{item.name}</p>
                                                 </Link>
                                                 <p>Size {item.size}</p>
@@ -48,7 +51,7 @@ function Cart() {
                                 })}
                             </ul>
                         </Col>
-                        <Col>
+                        <Col xs={12} sm={12} md={6}>
                             <h5>THÔNG TIN GIAO HÀNG</h5>
                         </Col>
                     </Row>

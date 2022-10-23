@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
+import _ from 'lodash';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
@@ -14,6 +15,7 @@ import 'swiper/css/mousewheel';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
+
 import clsx from 'clsx';
 import styles from './product.module.scss';
 
@@ -21,6 +23,7 @@ import { CartContext } from '../../Contexts/CartContext';
 import ProductService from '~/services/ProductService';
 function Product() {
     // State detail product
+
     const [product, setProduct] = useState({});
     const [allProducts, setAllProducts] = useState([]);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -33,6 +36,7 @@ function Product() {
     const [showSizeBoard, setShowSizeBoard] = useState(false);
     const [showReturnPolicy, setShowReturnPolicy] = useState(false);
     const [showThumbnail, setShowThumbnail] = useState(0);
+    const [showAddSuccessfull, setShowAddSuccessfull] = useState(false);
 
     const { id } = useParams();
     const [idProduct, setIdProduct] = useState(id);
@@ -77,7 +81,8 @@ function Product() {
     };
 
     const changeSize = (e) => {
-        console.log('size trong changeSize attri name:  ', e.target.value);
+        // console.log('size trong changeSize attri name:  ', e.target.value);
+
         setSize(e.target.value);
     };
 
@@ -86,16 +91,46 @@ function Product() {
             alert('Size là trường bắt buộc chọn');
             return;
         }
-        const newItem = {
-            id,
-            name: product.name_product,
-            img: product.thumbnail[0],
-            size: size,
-            quatity: quatity,
-        };
-        return setMyCart((prev) => [...prev, newItem]);
+        const itemInCartIndex = _.findIndex(myCart, { idProduct: idProduct, size: size });
+        if (itemInCartIndex != -1) {
+            let myCartTemp = myCart;
+            // pullAt trả về  1 mảng chứa các giá trị bị lấy ra, và thay đổi trực tiếp lên mảng đang xử lí
+            const itemIsGetted = _.pullAt(myCartTemp, itemInCartIndex);
+            // console.log('phan tu sau khi lay ra:  ', itemIsGetted);
+            // console.log('phan tu con lai sau khi lay ra:  ', myCartTemp);
+
+            const newItemAfterUpdate = {
+                idProduct,
+                name: itemIsGetted[0].name,
+                img: itemIsGetted[0].img,
+                size,
+                quatity: quatity + itemIsGetted[0].quatity,
+            };
+            // console.log('phan tu moi sau khi update ra:  ', newItemAfterUpdate);
+            const myCartResult = [...myCartTemp, newItemAfterUpdate];
+            // console.log('myCartResult cuoi cung:  ', myCartResult);
+            setShowAddSuccessfull(true);
+            setTimeout(() => {
+                setShowAddSuccessfull(false);
+            }, 5000);
+            return setMyCart(myCartResult);
+        } else {
+            const newItem = {
+                idProduct,
+                name: product.name_product,
+                img: product.thumbnail[0],
+                size: size,
+                quatity: quatity,
+            };
+            setShowAddSuccessfull(true);
+            setTimeout(() => {
+                setShowAddSuccessfull(false);
+            }, 5000);
+            return setMyCart((prev) => [...prev, newItem]);
+        }
     };
-    console.log('myCart:    ', myCart);
+    console.log('myCart: ', myCart);
+
     const toggleInfor = () => {
         return setShowInfor(!showInfor);
     };
@@ -262,9 +297,15 @@ function Product() {
                                 </div>
                             </li>
                             <li>
-                                <button className={clsx(styles.addProduct)} onClick={addToCart}>
-                                    Thêm vào giỏ hàng
-                                </button>
+                                {showAddSuccessfull === false ? (
+                                    <button className={clsx(styles.addProduct)} onClick={addToCart}>
+                                        Thêm vào giỏ hàng
+                                    </button>
+                                ) : (
+                                    <button className={clsx(styles.addedProduct)} disabled>
+                                        Đã thêm vào giỏ hàng
+                                    </button>
+                                )}
                             </li>
                         </ul>
                         <hr />

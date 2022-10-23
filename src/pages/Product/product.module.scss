@@ -93,6 +93,17 @@ $color-line-border: rgb(214, 214, 214);
     }
 }
 
+.addedProduct {
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 2rem 0 3rem 0;
+    padding: 5px 15px;
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    font-weight: 400;
+    box-shadow: 0 0 2px rgb(178, 175, 175);
+}
+
 @keyframes slidedown {
     from {
         opacity: 0;
@@ -140,6 +151,10 @@ $color-line-border: rgb(214, 214, 214);
         font-size: 1rem;
         animation: slidedown forwards 1.2s;
     }
+}
+
+.itemThumbnail {
+    cursor: pointer;
 }
 
 .btnBackHeader {

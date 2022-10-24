@@ -94,6 +94,7 @@ function Product() {
         const itemInCartIndex = _.findIndex(myCart, { idProduct: idProduct, size: size });
         if (itemInCartIndex != -1) {
             let myCartTemp = myCart;
+            // pullAt nhận vào 2 tham số, 1: là aray, 2: là index phần tử muốn lấy ra
             // pullAt trả về  1 mảng chứa các giá trị bị lấy ra, và thay đổi trực tiếp lên mảng đang xử lí
             const itemIsGetted = _.pullAt(myCartTemp, itemInCartIndex);
             // console.log('phan tu sau khi lay ra:  ', itemIsGetted);

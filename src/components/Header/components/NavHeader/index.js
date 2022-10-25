@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import clsx from 'clsx';
@@ -19,6 +19,14 @@ function NavHeader() {
     const handleShow = () => {
         setShow(!show);
     };
+
+    useEffect(() => {
+        if (JSON.parse(localStorage.getItem('listProductInCart')) === null) {
+            localStorage.setItem('listProductInCart', JSON.stringify(myCart));
+            console.log('local bi null   ');
+        }
+    }, []);
+
     return (
         <>
             <div className={' ' + clsx(styles.wrapper_icons_header)}>
@@ -46,16 +54,18 @@ function NavHeader() {
                     <Nav.Item>
                         <Nav.Link as={Link} to="/cart" className={clsx(styles.cartIcon)}>
                             <Cart2 className={styles.icon} />
-                            {JSON.parse(localStorage.getItem('listProductInCart')).length - 1 > 0 ? (
-                                <span className={clsx(styles.quatityProductInCart)}>
-                                    {_.sum(
-                                        JSON.parse(localStorage.getItem('listProductInCart')).map((item) => {
-                                            if (item.quatity !== undefined) {
-                                                return Number(item.quatity);
-                                            }
-                                        }),
-                                    )}
-                                </span>
+                            {JSON.parse(localStorage.getItem('listProductInCart')) !== null ? (
+                                JSON.parse(localStorage.getItem('listProductInCart')).length - 1 > 0 ? (
+                                    <span className={clsx(styles.quatityProductInCart)}>
+                                        {_.sum(
+                                            JSON.parse(localStorage.getItem('listProductInCart')).map((item) => {
+                                                if (item.quatity !== undefined) {
+                                                    return Number(item.quatity);
+                                                }
+                                            }),
+                                        )}
+                                    </span>
+                                ) : null
                             ) : null}
                         </Nav.Link>
                     </Nav.Item>

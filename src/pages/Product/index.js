@@ -56,10 +56,6 @@ function Product() {
             .catch((error) => console.log(error));
     }, [idProduct]);
 
-    useEffect(() => {
-        localStorage.setItem('listProductInCart', JSON.stringify(myCart));
-        console.log('useEff cartLocal:    ', myCart);
-    }, [myCart]);
     console.log('cartlocal:     ', myCart);
 
     const increaseQuatity = () => {

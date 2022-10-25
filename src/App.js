@@ -11,6 +11,7 @@ import { Home, AboutUs, Login, Signup, Shop, Product, Cart, Error404 } from '~/p
 import { CartContext } from './Contexts/CartContext';
 function App() {
     const [myCart, setMyCart] = useState([{}]);
+
     return (
         <CartContext.Provider value={{ myCart, setMyCart }}>
             <Router>

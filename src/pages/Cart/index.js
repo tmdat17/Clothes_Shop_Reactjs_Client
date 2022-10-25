@@ -20,6 +20,7 @@ function Cart() {
     console.log('myCart khi re render  ', cart);
 
     const itemLocal = JSON.parse(localStorage.getItem('listProductInCart'));
+
     if (cart.length === 1) {
         if (itemLocal !== null) cart = [...itemLocal];
     }

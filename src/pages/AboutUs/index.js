@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import styles from './about_us.module.scss';
 import { Row, Col, Container } from 'react-bootstrap';
+import { ChevronDoubleUp } from 'react-bootstrap-icons';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import banner_1 from '~/assets/banner_girl_1.jpg';
 import banner_2 from '~/assets/banner_girl_2.jpg';
 import banner_3 from '~/assets/banner_girl_3.png';
 
+import ScrollingToHeader from '~/components/ScrollingToHeader';
 function AboutUs() {
     useEffect(() => {
         document.title = 'Về chúng tôi';
@@ -113,6 +115,7 @@ function AboutUs() {
                     </Container>
                 </div>
             </div>
+            <ScrollingToHeader />
         </>
     );
 }

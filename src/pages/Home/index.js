@@ -47,7 +47,7 @@ function Home() {
 
     return (
         <div style={{ width: '100%', height: 'auto' }}>
-            <Ratio aspectRatio="16x9" id="header-home">
+            <Ratio aspectRatio="16x9">
                 <video style={{ width: '100%', height: '100%' }} type="video/mp4" src={videoAds} autoPlay loop muted />
             </Ratio>
 
@@ -82,10 +82,10 @@ function Home() {
                                 </Link>
                             </div>
                             <div className={clsx(styles.botProduct)}>
-                                <a href="#">
+                                <Link to={`/product/${item._id}`}>
                                     {item.name_product} / {item.color}
-                                    <p>{item.price_discount}</p>
-                                </a>
+                                    <p>{item.price}</p>
+                                </Link>
                             </div>
                         </Col>
                     );
@@ -98,7 +98,7 @@ function Home() {
             </div>
 
             {showGoToTop && (
-                <a href="#header-home" className={clsx(styles.btnBackHeader)}>
+                <a href="#" className={clsx(styles.btnBackHeader)}>
                     <ChevronDoubleUp style={{ fontSize: 20, marginTop: '7px', marginLeft: '8px' }} />
                 </a>
             )}

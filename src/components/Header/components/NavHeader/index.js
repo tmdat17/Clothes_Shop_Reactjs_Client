@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import clsx from 'clsx';
 import styles from './navheader.module.scss';
 import Container from 'react-bootstrap/Container';
@@ -9,7 +10,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Bell, Search, Cart2, Person } from 'react-bootstrap-icons';
 import { SearchHeader } from '~/components/Header/components';
 import logolevent from '~/assets/logoLeventWithoutBg.png';
+
+import { CartContext } from '~/Contexts/CartContext';
+
 function NavHeader() {
+    const { myCart } = useContext(CartContext);
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(!show);
@@ -39,8 +44,19 @@ function NavHeader() {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link as={Link} to="/cart">
+                        <Nav.Link as={Link} to="/cart" className={clsx(styles.cartIcon)}>
                             <Cart2 className={styles.icon} />
+                            {JSON.parse(localStorage.getItem('listProductInCart')).length - 1 > 0 ? (
+                                <span className={clsx(styles.quatityProductInCart)}>
+                                    {_.sum(
+                                        JSON.parse(localStorage.getItem('listProductInCart')).map((item) => {
+                                            if (item.quatity !== undefined) {
+                                                return Number(item.quatity);
+                                            }
+                                        }),
+                                    )}
+                                </span>
+                            ) : null}
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>

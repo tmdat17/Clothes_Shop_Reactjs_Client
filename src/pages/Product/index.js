@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import { Plus, Dash, ChevronDoubleUp, ChevronDown } from 'react-bootstrap-icons';
+import { Plus, Dash, ChevronDown } from 'react-bootstrap-icons';
+import ScrollingToHeader from '~/components/ScrollingToHeader';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Mousewheel, Scrollbar, Autoplay, FreeMode, Thumbs, EffectFade } from 'swiper';
@@ -31,7 +32,6 @@ function Product() {
     const [size, setSize] = useState('');
 
     // Show
-    const [showGoToTop, setShowGoToTop] = useState(false);
     const [showInfor, setShowInfor] = useState(false);
     const [showSizeBoard, setShowSizeBoard] = useState(false);
     const [showReturnPolicy, setShowReturnPolicy] = useState(false);
@@ -55,6 +55,12 @@ function Product() {
             .then((res) => setAllProducts(res.data))
             .catch((error) => console.log(error));
     }, [idProduct]);
+
+    useEffect(() => {
+        localStorage.setItem('listProductInCart', JSON.stringify(myCart));
+        console.log('useEff cartLocal:    ', myCart);
+    }, [myCart]);
+    console.log('cartlocal:     ', myCart);
 
     const increaseQuatity = () => {
         return setQuatity((prev) => {
@@ -92,7 +98,7 @@ function Product() {
             return;
         }
         const itemInCartIndex = _.findIndex(myCart, { idProduct: idProduct, size: size });
-        if (itemInCartIndex != -1) {
+        if (itemInCartIndex !== -1) {
             let myCartTemp = myCart;
             // pullAt nhận vào 2 tham số, 1: là aray, 2: là index phần tử muốn lấy ra
             // pullAt trả về  1 mảng chứa các giá trị bị lấy ra, và thay đổi trực tiếp lên mảng đang xử lí
@@ -106,9 +112,11 @@ function Product() {
                 img: itemIsGetted[0].img,
                 size,
                 quatity: quatity + itemIsGetted[0].quatity,
+                price: product.price,
             };
             // console.log('phan tu moi sau khi update ra:  ', newItemAfterUpdate);
             const myCartResult = [...myCartTemp, newItemAfterUpdate];
+            localStorage.setItem('listProductInCart', JSON.stringify(myCartResult));
             // console.log('myCartResult cuoi cung:  ', myCartResult);
             setShowAddSuccessfull(true);
             setTimeout(() => {
@@ -122,7 +130,10 @@ function Product() {
                 img: product.thumbnail[0],
                 size: size,
                 quatity: quatity,
+                price: product.price,
             };
+            const myCartLocal = [...myCart, newItem];
+            localStorage.setItem('listProductInCart', JSON.stringify(myCartLocal));
             setShowAddSuccessfull(true);
             setTimeout(() => {
                 setShowAddSuccessfull(false);
@@ -148,27 +159,9 @@ function Product() {
         setShowThumbnail(pro_id);
     };
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY >= 280) {
-                //show
-                setShowGoToTop(true);
-            } else {
-                //hide
-                setShowGoToTop(false);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-
-        //cleanup function
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
     return (
         <>
-            <Breadcrumb id="head">
+            <Breadcrumb>
                 <Breadcrumb.Item linkAs="li" as={Link} to={'/'}>
                     Trang chủ
                 </Breadcrumb.Item>
@@ -425,11 +418,7 @@ function Product() {
                     </Swiper>
                 </div>
             </Container>
-            {showGoToTop && (
-                <a href="#head" className={clsx(styles.btnBackHeader)}>
-                    <ChevronDoubleUp style={{ fontSize: 20, marginTop: '7px', marginLeft: '8px' }} />
-                </a>
-            )}
+            <ScrollingToHeader />
         </>
     );
 }

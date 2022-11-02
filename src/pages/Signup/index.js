@@ -23,7 +23,7 @@ function Signup() {
                             <input
                                 type="text"
                                 required=""
-                                name="name"
+                                name="fullname"
                                 placeholder="Họ và tên"
                                 className={
                                     ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.inputInfor)
@@ -33,7 +33,7 @@ function Signup() {
                             <input
                                 type="tel"
                                 required=""
-                                name="number_phone"
+                                name="phone"
                                 placeholder="Số điện thoại"
                                 className={
                                     ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.inputInfor)
@@ -60,7 +60,7 @@ function Signup() {
                             <input
                                 type="password"
                                 required=""
-                                name="acpt_password"
+                                name="accept_password"
                                 placeholder="Xác nhận lại mật khẩu"
                                 className={
                                     ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.inputInfor)

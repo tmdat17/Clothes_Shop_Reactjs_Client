@@ -84,4 +84,15 @@
             display: none;
         }
     }
+    .totalCost {
+        justify-content: space-around;
+        margin-bottom: 1.5rem;
+        :before {
+            content: '';
+            width: 85%;
+            left: 3rem;
+            top: -1rem;
+            background-color: rgb(226, 226, 226);
+        }
+    }
 }

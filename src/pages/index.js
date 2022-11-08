@@ -6,3 +6,4 @@ export { default as Shop } from '~/pages/Shop';
 export { default as Product } from '~/pages/Product';
 export { default as Error404 } from '~/pages/Error404';
 export { default as Cart } from '~/pages/Cart';
+export { default as User } from '~/pages/User';

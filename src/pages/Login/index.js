@@ -1,13 +1,32 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import clsx from 'clsx';
+
 import styles from './login.module.scss';
-import { Link } from 'react-router-dom';
+import AuthService from '~/services/AuthService';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Login() {
     useEffect(() => {
         document.title = 'Đăng nhập';
     }, []);
+
+    const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        const newUser = {
+            phone: phone,
+            password: password,
+        };
+        AuthService.loginUser(newUser, dispatch, navigate);
+    };
+
     return (
         <>
             <Container fluid>
@@ -17,7 +36,7 @@ function Login() {
                     </h2>
                     <form
                         className="d-flex justify-content-start d-sm-flex justify-content-sm-start d-md-flex justify-content-md-center"
-                        action="POST"
+                        onSubmit={handleLogin}
                     >
                         <div className="">
                             <p className="fs-4 text" style={{ fontWeight: '300' }}>
@@ -26,21 +45,23 @@ function Login() {
                             </p>
                             <input
                                 type="tel"
-                                name="sdt"
-                                required=""
+                                required={true}
+                                size={10}
                                 placeholder="Số điện thoại"
                                 className={
                                     ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.inputInfor)
                                 }
+                                onChange={(e) => setPhone(e.target.value)}
                             />
+
                             <input
                                 type="password"
-                                size={45}
-                                name="matkhau"
-                                required=""
+                                required={true}
                                 placeholder="Mật khẩu"
                                 className={' d-block my-3 my-sm-3 my-md-4 form-control ' + clsx(styles.inputInfor)}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
+
                             <input className="form-check-input" type="checkbox" defaultValue="" id="remember_acc" />
                             <label className="text-secondary fs-5 text-center" htmlFor="remember_acc">
                                 Ghi nhớ tài khoản
@@ -49,9 +70,7 @@ function Login() {
                                 <a className="fs-4 pt-1" href="#" style={{ fontWeight: '300' }}>
                                     Quên mật khẩu
                                 </a>
-                                <button className={'w-50 fs-3 ms-md-4 ' + clsx(styles.loginBtn)} type="submit">
-                                    Đăng nhập
-                                </button>
+                                <button className={'w-50 fs-3 ms-md-4 ' + clsx(styles.loginBtn)}>Đăng nhập</button>
                             </div>
                         </div>
                     </form>

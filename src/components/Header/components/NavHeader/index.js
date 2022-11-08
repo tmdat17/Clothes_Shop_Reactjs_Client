@@ -70,7 +70,7 @@ function NavHeader() {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link as={Link} to="login">
+                        <Nav.Link as={Link} to="user">
                             <Person className={styles.icon} />
                         </Nav.Link>
                     </Nav.Item>

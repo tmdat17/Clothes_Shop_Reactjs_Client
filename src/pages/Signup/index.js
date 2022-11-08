@@ -1,12 +1,36 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Col, Container, Row } from 'react-bootstrap';
+
 import clsx from 'clsx';
 import styles from './signup.module.scss';
-import { Col, Container, Row } from 'react-bootstrap';
+import AuthService from '~/services/AuthService';
 
 function Signup() {
     useEffect(() => {
         document.title = 'Đăng ký';
     }, []);
+
+    const [fullName, setFullName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [birthday, setBirthday] = useState('');
+    const [password, setPassword] = useState('');
+    const [acceptPassword, setAcceptPassword] = useState('');
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const handleRegister = (e) => {
+        e.preventDefault();
+        const userRegister = {
+            fullname: fullName,
+            phone: phone,
+            birthday: birthday,
+            password: password,
+            accept_password: acceptPassword,
+        };
+        AuthService.registerUser(userRegister, dispatch, navigate);
+    };
     return (
         <>
             <Container fluid>
@@ -16,55 +40,55 @@ function Signup() {
                     </h2>
                     <form
                         className=" d-flex justify-content-start d-sm-flex justify-content-sm-start d-md-flex justify-content-md-center"
-                        method="POST"
-                        action="#"
+                        onSubmit={handleRegister}
                     >
                         <div className="">
                             <input
                                 type="text"
-                                required=""
-                                name="fullname"
+                                required={true}
                                 placeholder="Họ và tên"
                                 className={
                                     ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.inputInfor)
                                 }
+                                onChange={(e) => setFullName(e.target.value)}
                             />
 
                             <input
                                 type="tel"
-                                required=""
-                                name="phone"
+                                required={true}
+                                size={10}
                                 placeholder="Số điện thoại"
                                 className={
                                     ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.inputInfor)
                                 }
+                                onChange={(e) => setPhone(e.target.value)}
                             />
                             <input
                                 type="date"
-                                required=""
-                                name="birthday"
+                                required={true}
                                 placeholder="dd/mm/yyyy"
                                 className={
                                     ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.inputInfor)
                                 }
+                                onChange={(e) => setBirthday(e.target.value)}
                             />
                             <input
                                 type="password"
-                                required=""
-                                name="password"
+                                required={true}
                                 placeholder="Mật khẩu"
                                 className={
                                     ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.inputInfor)
                                 }
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                             <input
                                 type="password"
-                                required=""
-                                name="accept_password"
+                                required={true}
                                 placeholder="Xác nhận lại mật khẩu"
                                 className={
                                     ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.inputInfor)
                                 }
+                                onChange={(e) => setAcceptPassword(e.target.value)}
                             />
                             <Row className=" mx-auto ">
                                 <Col xs={12} sm={12} md={12} className=" my-2 ">
@@ -84,10 +108,7 @@ function Signup() {
                                     </label>
                                 </Col>
                                 <Col xs={12} sm={12} md={12} className=" text-center">
-                                    <button
-                                        className={' w-50 fs-3 ms-md-4 mx-auto ' + clsx(styles.signupBtn)}
-                                        type="submit"
-                                    >
+                                    <button className={' w-50 fs-3 ms-md-4 mx-auto ' + clsx(styles.signupBtn)}>
                                         Tạo
                                     </button>
                                 </Col>

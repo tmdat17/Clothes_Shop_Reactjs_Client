@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { updateStart, updateSuccess, updateError } from '~/redux/userSlice';
-
 const url_get_one_user = 'http://localhost:5000/user/';
 const url_update_user = 'http://localhost:5000/user/update/';
 

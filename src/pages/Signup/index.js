@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import clsx from 'clsx';
@@ -31,6 +31,7 @@ function Signup() {
         };
         AuthService.registerUser(userRegister, dispatch, navigate);
     };
+    const msg = useSelector((state) => state.auth?.msg);
     return (
         <>
             <Container fluid>
@@ -38,6 +39,7 @@ function Signup() {
                     <h2 className="text-center" style={{ fontWeight: '400', marginBottom: '2rem' }}>
                         TẠO TÀI KHOẢN
                     </h2>
+                    <div className={clsx(styles.errorRegister)}>{msg}</div>
                     <form
                         className=" d-flex justify-content-start d-sm-flex justify-content-sm-start d-md-flex justify-content-md-center"
                         onSubmit={handleRegister}
@@ -97,6 +99,7 @@ function Signup() {
                                         type="checkbox"
                                         defaultValue=""
                                         id="acpt_cookie"
+                                        required={true}
                                     />
                                     <label
                                         className="text-secondary mt-4 "

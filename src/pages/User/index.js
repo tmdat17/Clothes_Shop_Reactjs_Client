@@ -61,11 +61,11 @@ function User() {
                     <Col xs={12} sm={12} md={8}>
                         <hr />
                         <div className={clsx(styles.titleRight)}>Họ và tên</div>
-                        <div>{inforUser?.fullname}</div>
+                        <div className={clsx(styles.inforUser)}>{inforUser?.fullname}</div>
                         <div className={clsx(styles.titleRight)}>Số điện thoại</div>
-                        <div>{inforUser?.phone}</div>
+                        <div className={clsx(styles.inforUser)}>{inforUser?.phone}</div>
                         <div className={clsx(styles.titleRight)}>Ngày sinh</div>
-                        <div>{inforUser?.birthday}</div>
+                        <div className={clsx(styles.inforUser)}>{inforUser?.birthday}</div>
                     </Col>
                 </Row>
             </Container>

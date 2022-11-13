@@ -46,3 +46,10 @@
 .loginBtn:hover:before {
     height: 100%;
 }
+
+.errorLogin {
+    font-size: 1.2rem;
+    color: red;
+    font-weight: 300;
+    font-style: italic;
+}

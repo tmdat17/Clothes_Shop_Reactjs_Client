@@ -19,8 +19,7 @@ const AuthService = {
             dispatch(loginSuccess(res.data));
             navigate('/user');
         } catch (error) {
-            dispatch(loginFailed());
-            alert('số điện thoại hoặc mật khẩu nhập bị sai!!');
+            dispatch(loginFailed(error.response.data));
         }
     },
 
@@ -31,8 +30,7 @@ const AuthService = {
             dispatch(registerSuccess());
             navigate('/login');
         } catch (error) {
-            alert('số điện thoại có thể đã tồn tại hoặc xác nhận mật khẩu không khớp!!');
-            dispatch(registerFailed());
+            dispatch(registerFailed(error.response.data));
         }
     },
 };

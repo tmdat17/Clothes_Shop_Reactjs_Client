@@ -30,8 +30,6 @@ function UpdateUser() {
         setFullName(inforUser.fullname);
         setPhone(inforUser.phone);
         setBirthday(inforUser.birthday);
-        console.log('1');
-        console.log('useEffect fullname:  ', inforUser.fullname);
     }, [inforUser]);
 
     const navigate = useNavigate();
@@ -55,14 +53,13 @@ function UpdateUser() {
             UserSerive.updateUser(newUpdate, dispatch, navigate, inforUser?._id);
         }
     };
-    console.log('user redux login:  ', user);
     return (
         <>
             <Container fluid className={clsx(styles.containerUser)}>
                 <Row>
                     <Col xs={12} sm={12} md={4}></Col>
                     <Col xs={12} sm={12} md={8}>
-                        <span style={{ fontSize: '2rem' }}>Thông tin cá nhân</span>
+                        <span style={{ fontSize: '2rem' }}>Thay đổi thông tin</span>
                     </Col>
                 </Row>
                 <Row>
@@ -91,7 +88,9 @@ function UpdateUser() {
                                 value={fullName}
                                 required={true}
                                 placeholder="Họ và tên"
-                                className={' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control '}
+                                className={
+                                    ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.titleRight)
+                                }
                                 onChange={(e) => setFullName(e.target.value)}
                             />
 
@@ -101,7 +100,9 @@ function UpdateUser() {
                                 required={true}
                                 size={10}
                                 placeholder="Số điện thoại"
-                                className={' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control '}
+                                className={
+                                    ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.titleRight)
+                                }
                                 onChange={(e) => setPhone(e.target.value)}
                             />
                             <input
@@ -109,11 +110,12 @@ function UpdateUser() {
                                 value={birthday}
                                 required={true}
                                 placeholder="dd/mm/yyyy"
-                                className={' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control '}
+                                className={
+                                    ' d-block my-3 my-sm-3 my-md-4 w-sm-25 form-control ' + clsx(styles.titleRight)
+                                }
                                 onChange={(e) => setBirthday(e.target.value)}
                             />
-
-                            <button className={' w-50 fs-3 ms-md-4 mx-auto '}>Cập nhật</button>
+                            <button className={' fs-3 ' + clsx(styles.updateBtn)}>Cập nhật</button>
                         </form>
                     </Col>
                 </Row>

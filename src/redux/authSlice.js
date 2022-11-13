@@ -13,6 +13,7 @@ const authSlice = createSlice({
             error: false,
             success: false,
         },
+        msg: '',
     },
 
     reducers: {
@@ -24,14 +25,11 @@ const authSlice = createSlice({
             state.login.currentUser = action.payload;
             state.login.error = false;
         },
-        // loginUpdateInfor: (state, action) => {
-        //     state.login.isFetching = false;
-        //     state.login.currentUser = action.payload;
-        //     state.login.error = false;
-        // },
-        loginFailed: (state) => {
+
+        loginFailed: (state, action) => {
             state.login.isFetching = false;
             state.login.error = true;
+            state.msg = action.payload;
         },
 
         registerStart: (state) => {
@@ -42,10 +40,11 @@ const authSlice = createSlice({
             state.register.error = false;
             state.register.success = true;
         },
-        registerFailed: (state) => {
+        registerFailed: (state, action) => {
             state.register.isFetching = false;
             state.register.error = true;
             state.register.success = false;
+            state.msg = action.payload;
         },
     },
 });

@@ -26,7 +26,7 @@ function Login() {
         };
         AuthService.loginUser(newUser, dispatch, navigate);
     };
-
+    const msg = useSelector((state) => state.auth?.msg);
     return (
         <>
             <Container fluid>
@@ -43,6 +43,7 @@ function Login() {
                                 Bạn chưa có tài khoản?
                                 <Link to="/sign_up">Đăng ký</Link>
                             </p>
+                            <div className={clsx(styles.errorLogin)}>{msg}</div>
                             <input
                                 type="tel"
                                 required={true}

@@ -26,7 +26,7 @@ function Login() {
         };
         AuthService.loginUser(newUser, dispatch, navigate);
     };
-    const msg = useSelector((state) => state.auth?.msg);
+    const msg = useSelector((state) => state.auth?.msgLogin);
     return (
         <>
             <Container fluid>

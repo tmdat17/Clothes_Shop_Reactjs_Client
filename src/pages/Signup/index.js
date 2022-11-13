@@ -31,7 +31,7 @@ function Signup() {
         };
         AuthService.registerUser(userRegister, dispatch, navigate);
     };
-    const msg = useSelector((state) => state.auth?.msg);
+    const msg = useSelector((state) => state.auth?.msgRegister);
     return (
         <>
             <Container fluid>

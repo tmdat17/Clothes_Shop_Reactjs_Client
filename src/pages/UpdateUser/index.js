@@ -6,6 +6,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import clsx from 'clsx';
 import styles from './updateUser.module.scss';
 import UserSerive from '~/services/UserService';
+import { createAxios } from '~/createInstance';
+import { logoutSuccess } from '~/redux/authSlice';
 
 function UpdateUser() {
     const [inforUser, setInforUser] = useState({});
@@ -53,6 +55,13 @@ function UpdateUser() {
             UserSerive.updateUser(newUpdate, dispatch, navigate, inforUser?._id);
         }
     };
+
+    let axiosJWT = createAxios(user, dispatch, logoutSuccess);
+    const id = user?._id;
+    const accessToken = user?.accessToken;
+    const handleLogout = () => {
+        UserSerive.logoutUser(dispatch, id, navigate, accessToken, axiosJWT);
+    };
     return (
         <>
             <Container fluid className={clsx(styles.containerUser)}>
@@ -78,7 +87,9 @@ function UpdateUser() {
                             Thay đổi thông tin
                         </Link>
 
-                        <div className={clsx(styles.titleLeft)}>Đăng xuất</div>
+                        <button onClick={handleLogout} className={clsx(styles.btnLogout)}>
+                            Đăng xuất
+                        </button>
                     </Col>
                     <Col xs={12} sm={12} md={8}>
                         <hr />

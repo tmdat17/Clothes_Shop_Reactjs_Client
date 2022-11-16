@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import clsx from 'clsx';
@@ -12,9 +13,10 @@ import { SearchHeader } from '~/components/Header/components';
 import logolevent from '~/assets/logoLeventWithoutBg.png';
 
 import { CartContext } from '~/Contexts/CartContext';
+import UserService from '~/services/UserService';
 
 function NavHeader() {
-    const { myCart } = useContext(CartContext);
+    const { myCart, setMyCart } = useContext(CartContext);
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(!show);
@@ -26,6 +28,17 @@ function NavHeader() {
             console.log('local bi null   ');
         }
     }, []);
+
+    const user = useSelector((state) => state.auth.login?.currentUser);
+    useEffect(() => {
+        console.log('id cua user:  ', user?._id);
+        const getProductFromCart = UserService.getOneUser(user?._id);
+        getProductFromCart
+            .then((res) => {
+                setMyCart(res.data.cart);
+            })
+            .catch((error) => console.log(error));
+    }, [user]);
 
     return (
         <>
@@ -54,18 +67,20 @@ function NavHeader() {
                     <Nav.Item>
                         <Nav.Link as={Link} to="/cart" className={clsx(styles.cartIcon)}>
                             <Cart2 className={styles.icon} />
-                            {JSON.parse(localStorage.getItem('listProductInCart')) !== null ? (
-                                JSON.parse(localStorage.getItem('listProductInCart')).length - 1 > 0 ? (
+                            {myCart !== null ? (
+                                myCart[0]?.quatity !== undefined ? (
                                     <span className={clsx(styles.quatityProductInCart)}>
                                         {_.sum(
-                                            JSON.parse(localStorage.getItem('listProductInCart')).map((item) => {
-                                                if (item.quatity !== undefined) {
-                                                    return Number(item.quatity);
+                                            myCart?.map((item) => {
+                                                if (item?.quatity !== undefined) {
+                                                    return Number(item?.quatity);
                                                 }
                                             }),
                                         )}
                                     </span>
-                                ) : null
+                                ) : (
+                                    <span></span>
+                                )
                             ) : null}
                         </Nav.Link>
                     </Nav.Item>

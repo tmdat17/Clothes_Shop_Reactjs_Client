@@ -1,5 +1,6 @@
 .cart {
     position: relative;
+
     .cardProduct {
         display: flex;
         font-size: 1.2rem;
@@ -40,16 +41,6 @@
             }
         }
     }
-    :after {
-        content: '';
-        height: 100%;
-        width: 1px;
-        background-color: rgb(226, 226, 226);
-        position: absolute;
-        top: 0;
-        left: 100%;
-        transform: translateX(50%);
-    }
 }
 
 .totalCost {
@@ -79,6 +70,8 @@
                 margin: 2rem 0 0 0.4rem;
             }
         }
+    }
+    .containerInforShip {
         :after {
             content: '';
             display: none;
@@ -94,5 +87,49 @@
             top: -1rem;
             background-color: rgb(226, 226, 226);
         }
+    }
+}
+
+.containerInforShip {
+    position: relative;
+    h5 {
+        margin-left: 1rem;
+    }
+    .wrapperInforShip {
+        margin: 2rem 0 0 2rem;
+
+        .inforShip {
+            width: 80%;
+            height: 2rem;
+            border: 1px solid #333;
+            border-radius: 10px 10px 10px 10px;
+            padding: 5px 0 5px 1rem;
+        }
+        span {
+            color: red;
+            font-size: 13px;
+        }
+        .btnOrder {
+            display: inline-block;
+            background-color: transparent;
+            color: blue;
+            border: none;
+            outline: none;
+            font-size: 1.5rem;
+            transition: all 0.225s;
+            &:hover {
+                box-shadow: -2px 2px 3px rgb(190, 190, 190);
+            }
+        }
+    }
+    :after {
+        content: '';
+        height: 100%;
+        width: 1px;
+        background-color: rgb(226, 226, 226);
+        position: absolute;
+        top: 0;
+        right: 100%;
+        transform: translateX(-50%);
     }
 }

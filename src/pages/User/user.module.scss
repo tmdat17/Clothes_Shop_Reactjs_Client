@@ -17,6 +17,20 @@
         margin-top: 1rem;
         margin-bottom: 0.5rem;
     }
+    .btnLogout {
+        border: none;
+        outline: none;
+        padding: 0;
+        background-color: transparent;
+        font-size: 1.6rem;
+        color: #333;
+        font-weight: 200;
+        margin-top: 10px;
+        transition: all 0.025s;
+        &:hover {
+            font-weight: 300;
+        }
+    }
 
     .inforUser {
         font-size: 1.3rem;

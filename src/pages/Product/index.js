@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Plus, Dash, ChevronDown } from 'react-bootstrap-icons';
@@ -22,6 +23,8 @@ import styles from './product.module.scss';
 
 import { CartContext } from '../../Contexts/CartContext';
 import ProductService from '~/services/ProductService';
+import UserService from '~/services/UserService';
+
 function Product() {
     // State detail product
 
@@ -56,7 +59,7 @@ function Product() {
             .catch((error) => console.log(error));
     }, [idProduct]);
 
-    console.log('cartlocal:     ', myCart);
+    // console.log('cartlocal:     ', myCart);
 
     const increaseQuatity = () => {
         return setQuatity((prev) => {
@@ -88,56 +91,69 @@ function Product() {
         setSize(e.target.value);
     };
 
-    const addToCart = () => {
-        if (size === '') {
-            alert('Size là trường bắt buộc chọn');
-            return;
-        }
-        const itemInCartIndex = _.findIndex(myCart, { idProduct: idProduct, size: size });
-        if (itemInCartIndex !== -1) {
-            let myCartTemp = myCart;
-            // pullAt nhận vào 2 tham số, 1: là aray, 2: là index phần tử muốn lấy ra
-            // pullAt trả về  1 mảng chứa các giá trị bị lấy ra, và thay đổi trực tiếp lên mảng đang xử lí
-            const itemIsGetted = _.pullAt(myCartTemp, itemInCartIndex);
-            // console.log('phan tu sau khi lay ra:  ', itemIsGetted);
-            // console.log('phan tu con lai sau khi lay ra:  ', myCartTemp);
+    const user = useSelector((state) => state.auth.login?.currentUser);
 
-            const newItemAfterUpdate = {
-                idProduct,
-                name: itemIsGetted[0].name,
-                img: itemIsGetted[0].img,
-                size,
-                quatity: quatity + itemIsGetted[0].quatity,
-                price: product.price,
-            };
-            // console.log('phan tu moi sau khi update ra:  ', newItemAfterUpdate);
-            const myCartResult = [...myCartTemp, newItemAfterUpdate];
-            localStorage.setItem('listProductInCart', JSON.stringify(myCartResult));
-            // console.log('myCartResult cuoi cung:  ', myCartResult);
-            setShowAddSuccessfull(true);
-            setTimeout(() => {
-                setShowAddSuccessfull(false);
-            }, 5000);
-            return setMyCart(myCartResult);
+    console.log('mycart sau khi goi api:  ', myCart);
+    const navigate = useNavigate();
+    const addToCart = () => {
+        if (!user) {
+            alert('Vui lòng đăng nhập để thêm sản phẩm');
+            navigate('/login');
         } else {
-            const newItem = {
-                idProduct,
-                name: product.name_product,
-                img: product.thumbnail[0],
-                size: size,
-                quatity: quatity,
-                price: product.price,
-            };
-            const myCartLocal = [...myCart, newItem];
-            localStorage.setItem('listProductInCart', JSON.stringify(myCartLocal));
-            setShowAddSuccessfull(true);
-            setTimeout(() => {
-                setShowAddSuccessfull(false);
-            }, 5000);
-            return setMyCart((prev) => [...prev, newItem]);
+            if (size === '') {
+                alert('Size là trường bắt buộc chọn');
+                return;
+            }
+
+            const itemInCartIndex = _.findIndex(myCart, { idProduct: idProduct, size: size });
+            if (itemInCartIndex !== -1) {
+                let myCartTemp = myCart;
+                // pullAt nhận vào 2 tham số, 1: là aray, 2: là index phần tử muốn lấy ra
+                // pullAt trả về  1 mảng chứa các giá trị bị lấy ra, và thay đổi trực tiếp lên mảng đang xử lí
+                const itemIsGetted = _.pullAt(myCartTemp, itemInCartIndex);
+                // console.log('phan tu sau khi lay ra:  ', itemIsGetted);
+                // console.log('phan tu con lai sau khi lay ra:  ', myCartTemp);
+
+                const newItemAfterUpdate = {
+                    idProduct,
+                    name: itemIsGetted[0].name,
+                    img: itemIsGetted[0].img,
+                    size,
+                    quatity: Number(quatity) + Number(itemIsGetted[0].quatity),
+                    price: product.price,
+                };
+                // console.log('phan tu moi sau khi update ra:  ', newItemAfterUpdate);
+                const myCartResult = [...myCartTemp, newItemAfterUpdate];
+                // localStorage.setItem('listProductInCart', JSON.stringify(myCartResult));
+                // console.log('myCartResult cuoi cung:  ', myCartResult);
+                setShowAddSuccessfull(true);
+                setTimeout(() => {
+                    setShowAddSuccessfull(false);
+                }, 5000);
+                UserService.changeItemCart(user?._id, itemIsGetted[0]);
+                UserService.addToCart(user?._id, newItemAfterUpdate);
+                return setMyCart(myCartResult);
+            } else {
+                const newItem = {
+                    idProduct,
+                    name: product.name_product,
+                    img: product.thumbnail[0],
+                    size: size,
+                    quatity: quatity,
+                    price: product.price,
+                };
+                const myCartLocal = [...myCart, newItem];
+                // localStorage.setItem('listProductInCart', JSON.stringify(myCartLocal));
+                UserService.addToCart(user?._id, newItem);
+                setShowAddSuccessfull(true);
+                setTimeout(() => {
+                    setShowAddSuccessfull(false);
+                }, 5000);
+                return setMyCart((prev) => [...prev, newItem]);
+            }
         }
     };
-    console.log('myCart: ', myCart);
+    // console.log('myCart: ', myCart);
 
     const toggleInfor = () => {
         return setShowInfor(!showInfor);
@@ -390,7 +406,10 @@ function Product() {
                                       <SwiperSlide
                                           key={index}
                                           className="text-center"
-                                          onClick={() => setIdProduct(item._id)}
+                                          onClick={() => {
+                                              setIdProduct(item._id);
+                                              navigate(`/product/${idProduct}`);
+                                          }}
                                       >
                                           {showThumbnail === item.product_id ? (
                                               <img

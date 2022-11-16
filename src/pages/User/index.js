@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import clsx from 'clsx';
 import styles from './user.module.scss';
 import UserSerive from '~/services/UserService';
-
+import { createAxios } from '~/createInstance';
+import { logoutSuccess } from '~/redux/authSlice';
+import { CartContext } from '../../Contexts/CartContext';
 function User() {
+    const { myCart, setMyCart } = useContext(CartContext);
     const [inforUser, setInforUser] = useState({});
     useEffect(() => {
         document.title = 'Tài khoản';
@@ -16,7 +19,7 @@ function User() {
     const user = useSelector((state) => state.auth.login?.currentUser);
 
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     useEffect(() => {
         if (user === null) {
             navigate('/login');
@@ -27,6 +30,16 @@ function User() {
                 .catch((error) => console.log(error));
         }
     }, []);
+
+    // axiosJWT trong trường hợp user muốn logout mà accessToken đã hết hạn
+    // thì axiosJWT sẽ tự động gọi refreshToken (tạo ra accessToken mới và refreshToken mới) và axiosJWT sẽ cấu hình headers có accessToken mới
+    let axiosJWT = createAxios(user, dispatch, logoutSuccess);
+    const idUser = user?._id;
+    const accessToken = user?.accessToken;
+    const handleLogout = () => {
+        UserSerive.logoutUser(dispatch, idUser, navigate, accessToken, axiosJWT);
+        setMyCart([]);
+    };
 
     return (
         <>
@@ -56,7 +69,9 @@ function User() {
                             Thay đổi thông tin
                         </Link>
 
-                        <div className={clsx(styles.titleLeft)}>Đăng xuất</div>
+                        <button onClick={handleLogout} className={clsx(styles.btnLogout)}>
+                            Đăng xuất
+                        </button>
                     </Col>
                     <Col xs={12} sm={12} md={8}>
                         <hr />

@@ -15,7 +15,20 @@
         color: #333;
         font-weight: 300;
     }
-
+    .btnLogout {
+        border: none;
+        outline: none;
+        padding: 0;
+        background-color: transparent;
+        font-size: 1.6rem;
+        color: #333;
+        font-weight: 200;
+        margin-top: 10px;
+        transition: all 0.025s;
+        &:hover {
+            font-weight: 300;
+        }
+    }
     .updateBtn {
         display: inline-block;
         background-color: transparent;

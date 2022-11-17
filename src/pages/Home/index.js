@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import ProductService from '../../services/ProductService';
 import clsx from 'clsx';
+
+import ProductService from '../../services/ProductService';
+
 import styles from './home.module.scss';
 import { Row, Col } from 'react-bootstrap';
 import Ratio from 'react-bootstrap/Ratio';
-import { ChevronDoubleUp } from 'react-bootstrap-icons';
 import videoAds from '~/assets/videos/clip-3-ban-ngang-web-.mp4';
+import ScrollingToHeader from '~/components/ScrollingToHeader';
+
 function Home() {
     const [allProducts, setAllProducts] = useState([]);
-    const [showGoToTop, setShowGoToTop] = useState(false);
     useEffect(() => {
         document.title = 'Trang chủ';
     }, []);
@@ -20,24 +22,6 @@ function Home() {
         getData()
             .then((res) => setAllProducts(res.data))
             .catch((error) => console.log(error));
-    }, []);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY >= 380) {
-                //show
-                setShowGoToTop(true);
-            } else {
-                //hide
-                setShowGoToTop(false);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-
-        //cleanup function
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
     }, []);
 
     const [show, setShow] = useState(0);
@@ -97,11 +81,7 @@ function Home() {
                 </Link>
             </div>
 
-            {showGoToTop && (
-                <a href="#" className={clsx(styles.btnBackHeader)}>
-                    <ChevronDoubleUp style={{ fontSize: 20, marginTop: '7px', marginLeft: '8px' }} />
-                </a>
-            )}
+            <ScrollingToHeader />
         </div>
     );
 }

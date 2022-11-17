@@ -117,11 +117,17 @@ function NavHeader() {
                                     Tất cả
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/home">T-Shirt</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/category_tshirt">
+                                    T-Shirt
+                                </NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/home">Polo</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/category_polo">
+                                    Polo
+                                </NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/home">Quần</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/shop">
+                                    Quần
+                                </NavDropdown.Item>
                             </NavDropdown>
                             <Nav.Link href="/home" className={clsx(styles.navHeaderItem)}>
                                 Sale
@@ -135,9 +141,7 @@ function NavHeader() {
                             <Nav.Link href="/home" className={clsx(styles.navHeaderItem)}>
                                 Blogs
                             </Nav.Link>
-                            <Nav.Link href="/home" className={clsx(styles.navHeaderItem)}>
-                                Đăng sản phẩm
-                            </Nav.Link>
+
                             <NavDropdown
                                 title="Chăm sóc khách hàng"
                                 className={clsx(styles.navHeaderItem)}

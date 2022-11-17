@@ -2,22 +2,28 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
-import styles from './shop.module.scss';
+import styles from './categoryTShirt.module.scss';
 import { Row, Col } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ScrollingToHeader from '~/components/ScrollingToHeader';
 import ProductService from '~/services/ProductService';
-function Shop() {
-    const [allProducts, setAllProducts] = useState([]);
+function CategoryTShirt() {
+    const [allTShirts, setAllTShirts] = useState([]);
 
     useEffect(() => {
-        document.title = 'Shop';
+        document.title = 'T-Shirt';
     }, []);
 
     useEffect(() => {
         const getData = ProductService.getAllProduct;
         getData()
-            .then((res) => setAllProducts(res.data))
+            .then((res) => {
+                res.data.map((item) => {
+                    if (item.category.type_product == 'ao thun tron') {
+                        setAllTShirts((prev) => [...prev, item]);
+                    }
+                });
+            })
             .catch((error) => console.log(error));
     }, []);
 
@@ -32,12 +38,15 @@ function Shop() {
                     <Breadcrumb.Item linkAs="li" as={Link} to={'/'}>
                         Trang chủ
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item active>Shop</Breadcrumb.Item>
+                    <Breadcrumb.Item linkAs="li" as={Link} to={'/shop'} style={{ width: '4rem' }}>
+                        Shop
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item active>T-Shirt</Breadcrumb.Item>
                 </Breadcrumb>
-                <h1>Các sản phẩm của shop</h1>
+                <h1>Áo TShirt</h1>
             </div>
             <Row className={clsx(styles.listProduct)}>
-                {allProducts.map((item) => {
+                {allTShirts.map((item) => {
                     return (
                         <Col xs={12} sm={12} md={4} className={clsx(styles.productItem)} key={item.product_id}>
                             <div className={clsx(styles.topProduct)}>
@@ -74,4 +83,4 @@ function Shop() {
     );
 }
 
-export default Shop;
+export default CategoryTShirt;

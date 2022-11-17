@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Trash, ChevronDoubleUp } from 'react-bootstrap-icons';
+import { Trash } from 'react-bootstrap-icons';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 import clsx from 'clsx';
@@ -13,6 +13,8 @@ import helper from '~/helpers';
 
 import ScrollingToHeader from '~/components/ScrollingToHeader';
 import UserService from '~/services/UserService';
+import OrderService from '~/services/OrderService';
+import OrderDetailService from '~/services/OrderDetailService';
 
 function Cart() {
     const user = useSelector((state) => state.auth.login?.currentUser);
@@ -31,6 +33,7 @@ function Cart() {
     const [ward, setWard] = useState('');
     const [methodPayment, setMethodPayment] = useState('');
 
+    const [orderId, setOrderId] = useState('');
     console.log('myCart khi re render  ', cart);
 
     // const itemLocal = JSON.parse(localStorage.getItem('listProductInCart'));
@@ -70,6 +73,44 @@ function Cart() {
     const changeMethodPayment = (e) => {
         setMethodPayment(e.target.value);
     };
+
+    const handleCheckOut = async (e) => {
+        e.preventDefault();
+        const inforShipment = {
+            receiverName,
+            phone,
+            birthday,
+            address,
+            city,
+            ward,
+            methodPayment,
+            totalPrice: helper.formatProductPrice(total).split('₫')[0] + 'vnd',
+            user: user?._id,
+        };
+        const getData = OrderService.addOrder(inforShipment);
+        getData
+            .then((res) => {
+                myCart.map((item) => {
+                    const newOrderDetail = {
+                        order: res.data,
+                        product: item.idProduct,
+                        nameProduct: item.name,
+                        price: item.price,
+                        quatity: item.quatity,
+                        size: item.size,
+                    };
+                    OrderDetailService.addOrderDetail(newOrderDetail);
+                    const updateCart = {
+                        idProduct: item.idProduct,
+                        size: item.size,
+                    };
+                    UserService.changeItemCart(user?._id, updateCart);
+                });
+                setMyCart([]);
+            })
+            .catch((error) => console.log(error));
+    };
+
     return (
         <>
             {console.log('myCart in return:     ')}
@@ -139,7 +180,7 @@ function Cart() {
                         <Col xs={12} sm={12} md={6}>
                             <div className={clsx(styles.containerInforShip)}>
                                 <h5>THÔNG TIN GIAO HÀNG</h5>
-                                <form>
+                                <form onSubmit={handleCheckOut}>
                                     <div className={clsx(styles.wrapperInforShip)}>
                                         <Row>
                                             <Col xs={12} sm={12} md={4}>

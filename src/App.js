@@ -6,7 +6,20 @@ import GlobalStyles from './components/GlobalStyles';
 import Header from '~/components/Header';
 import Footer from './components/Footer';
 
-import { Home, AboutUs, Login, Signup, Shop, Product, Cart, User, UpdateUser, Error404 } from '~/pages';
+import {
+    Home,
+    AboutUs,
+    Login,
+    Signup,
+    Shop,
+    Product,
+    Cart,
+    User,
+    UpdateUser,
+    CategoryTShirt,
+    CategoryPolo,
+    Error404,
+} from '~/pages';
 
 import { CartContext } from './Contexts/CartContext';
 import { Provider } from 'react-redux';
@@ -30,6 +43,8 @@ function App() {
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/sign_up" element={<Signup />} />
                                 <Route path="/shop" element={<Shop />} />
+                                <Route path="/category_tshirt" element={<CategoryTShirt />} />
+                                <Route path="/category_polo" element={<CategoryPolo />} />
                                 <Route path="/product/:id" element={<Product />} />
                                 <Route path="/cart" element={<Cart />} />
                                 <Route path="*" element={<Error404 />} />

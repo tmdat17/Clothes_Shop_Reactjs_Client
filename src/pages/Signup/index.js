@@ -5,6 +5,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 
 import clsx from 'clsx';
 import styles from './signup.module.scss';
+import ScrollingToHeader from '~/components/ScrollingToHeader';
 import AuthService from '~/services/AuthService';
 
 function Signup() {
@@ -130,6 +131,7 @@ function Signup() {
                     phận cskh của Levents để được hỗ trợ
                 </p>
             </Container>
+            <ScrollingToHeader />
         </>
     );
 }

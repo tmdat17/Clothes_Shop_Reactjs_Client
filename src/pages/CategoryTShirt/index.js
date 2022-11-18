@@ -19,7 +19,7 @@ function CategoryTShirt() {
         getData()
             .then((res) => {
                 res.data.map((item) => {
-                    if (item.category.type_product == 'ao thun tron') {
+                    if (item.category.type_product === 'ao thun tron') {
                         setAllTShirts((prev) => [...prev, item]);
                     }
                 });

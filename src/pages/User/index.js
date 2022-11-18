@@ -23,7 +23,7 @@ function User() {
     useEffect(() => {
         if (user === null) {
             navigate('/login');
-        }
+        } else navigate('/user');
         if (user) {
             UserSerive.getOneUser(user?._id)
                 .then((res) => setInforUser(res.data))

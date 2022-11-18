@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
-import styles from './categoryPolo.module.scss';
+import styles from './categoryHoodie.module.scss';
 import { Row, Col } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ScrollingToHeader from '~/components/ScrollingToHeader';
 import ProductService from '~/services/ProductService';
-function CategoryPolo() {
-    const [allPolos, setAllPolos] = useState([]);
+function CategoryHoodie() {
+    const [allHoodies, setAllHoodies] = useState([]);
 
     useEffect(() => {
-        document.title = 'Polo';
+        document.title = 'Hoodie';
     }, []);
 
     useEffect(() => {
@@ -19,8 +19,8 @@ function CategoryPolo() {
         getData()
             .then((res) => {
                 res.data.map((item) => {
-                    if (item.category.type_product === 'ao thun POLO') {
-                        setAllPolos((prev) => [...prev, item]);
+                    if (item.category.type_product === 'ao hoodie') {
+                        setAllHoodies((prev) => [...prev, item]);
                     }
                 });
             })
@@ -43,10 +43,10 @@ function CategoryPolo() {
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>Polo</Breadcrumb.Item>
                 </Breadcrumb>
-                <h1>Áo Polo</h1>
+                <h1>Áo Hoodie</h1>
             </div>
             <Row className={clsx(styles.listProduct)}>
-                {allPolos.map((item) => {
+                {allHoodies.map((item) => {
                     return (
                         <Col xs={12} sm={12} md={4} className={clsx(styles.productItem)} key={item.product_id}>
                             <div className={clsx(styles.topProduct)}>
@@ -83,4 +83,4 @@ function CategoryPolo() {
     );
 }
 
-export default CategoryPolo;
+export default CategoryHoodie;

@@ -22,6 +22,10 @@ function NavHeader() {
         setShow(!show);
     };
 
+    const handleShowFromChildComponent = (display) => {
+        setShow(display);
+    };
+
     useEffect(() => {
         if (JSON.parse(localStorage.getItem('listProductInCart')) === null) {
             localStorage.setItem('listProductInCart', JSON.stringify(myCart));
@@ -50,17 +54,17 @@ function NavHeader() {
                 </div>
                 <Nav className={' mx-3 ' + clsx(styles.navIcons)}>
                     <Nav.Item>
-                        <Nav.Link href="/home">
+                        <Nav.Link as={Link} to="/page_loading">
                             <Bell className={styles.icon} />
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href="/home" className="">
+                        <Nav.Link as={Link} to="/page_loading">
                             <span className={styles.icon}>Wishlist</span>
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href="#">
+                        <Nav.Link>
                             <Search className={styles.icon} onClick={handleShow} />
                         </Nav.Link>
                     </Nav.Item>
@@ -93,7 +97,8 @@ function NavHeader() {
             </div>
 
             <hr />
-            {show && <SearchHeader />}
+            {console.log('search show:  ', show)}
+            {show && <SearchHeader displaySearch={handleShow} />}
             {/* <hr /> */}
             <Navbar bg="light" expand="lg" className={'  ' + clsx(styles.navHeader)}>
                 <Container fluid>
@@ -125,20 +130,24 @@ function NavHeader() {
                                     Polo
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item as={Link} to="/shop">
+                                <NavDropdown.Item as={Link} to="/category_hoodie">
+                                    Hoodie
+                                </NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item as={Link} to="/category_trouser">
                                     Quần
                                 </NavDropdown.Item>
                             </NavDropdown>
-                            <Nav.Link href="/home" className={clsx(styles.navHeaderItem)}>
+                            <Nav.Link as={Link} to="/page_loading" className={clsx(styles.navHeaderItem)}>
                                 Sale
                             </Nav.Link>
-                            <Nav.Link href="/home" className={clsx(styles.navHeaderItem)}>
+                            <Nav.Link as={Link} to="/page_loading" className={clsx(styles.navHeaderItem)}>
                                 Bộ sưu tâp
                             </Nav.Link>
-                            <Nav.Link href="/home" className={clsx(styles.navHeaderItem)}>
+                            <Nav.Link as={Link} to="/page_loading" className={clsx(styles.navHeaderItem)}>
                                 Outfits
                             </Nav.Link>
-                            <Nav.Link href="/home" className={clsx(styles.navHeaderItem)}>
+                            <Nav.Link as={Link} to="/page_loading" className={clsx(styles.navHeaderItem)}>
                                 Blogs
                             </Nav.Link>
 
@@ -147,17 +156,27 @@ function NavHeader() {
                                 className={clsx(styles.navHeaderItem)}
                                 id="navbarScrollingDropdown"
                             >
-                                <NavDropdown.Item href="/home">Chính sách đổi trả & bảo hành</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/page_loading">
+                                    Chính sách đổi trả & bảo hành
+                                </NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/home">Chính sách membership</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/page_loading">
+                                    Chính sách membership
+                                </NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/home">Chính sách vận chuyển</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/page_loading">
+                                    Chính sách vận chuyển
+                                </NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/home">Hướng dẫn mua hàng và bảo hành</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/page_loading">
+                                    Hướng dẫn mua hàng và bảo hành
+                                </NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/home">Q & A</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/page_loading">
+                                    Q & A
+                                </NavDropdown.Item>
                             </NavDropdown>
-                            <Nav.Link href="/home" className={clsx(styles.navHeaderItem)}>
+                            <Nav.Link as={Link} to="/page_loading" className={clsx(styles.navHeaderItem)}>
                                 Liên hệ
                             </Nav.Link>
                         </Nav>

@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { Globe2, ArrowRightCircleFill } from 'react-bootstrap-icons';
 import styles from './topheader.module.scss';
 import Nav from 'react-bootstrap/Nav';
+import { Link } from 'react-router-dom';
 
 function TopHeader() {
     const classes = 'bg-black d-flex justify-content-between ' + clsx(styles.wrapperTopHeader, styles.textLight);
@@ -15,7 +16,10 @@ function TopHeader() {
                 <span> LEVENTS LOVE YOU!!!</span>
             </div>
             <div className="me-5 d-flex ">
-                <Nav.Link className="my-auto me-1"> BUY NOW!</Nav.Link>
+                <Nav.Link as={Link} to="/shop" className="my-auto me-1">
+                    {' '}
+                    BUY NOW!
+                </Nav.Link>
                 <i className={clsx(styles.icon)}>
                     <ArrowRightCircleFill />
                 </i>

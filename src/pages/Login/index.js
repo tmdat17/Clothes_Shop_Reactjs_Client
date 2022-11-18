@@ -4,9 +4,9 @@ import { Container } from 'react-bootstrap';
 import clsx from 'clsx';
 
 import styles from './login.module.scss';
+import ScrollingToHeader from '~/components/ScrollingToHeader';
 import AuthService from '~/services/AuthService';
 import { useDispatch, useSelector } from 'react-redux';
-
 function Login() {
     useEffect(() => {
         document.title = 'Đăng nhập';
@@ -77,6 +77,7 @@ function Login() {
                     </form>
                 </div>
             </Container>
+            <ScrollingToHeader />
         </>
     );
 }

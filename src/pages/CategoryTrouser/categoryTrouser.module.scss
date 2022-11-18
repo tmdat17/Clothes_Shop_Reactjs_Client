@@ -1,0 +1,35 @@
+.listProduct {
+    margin: 2rem 0;
+}
+
+.productItem {
+    // border: 1px solid rgb(113, 15, 233);
+}
+
+.topProduct {
+    a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.botProduct {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    a {
+        color: #333;
+        &:hover {
+            color: blue;
+        }
+    }
+}
+
+.itemThumbnail {
+    width: 80%;
+    height: 70%;
+    // border: 1px solid black;
+}

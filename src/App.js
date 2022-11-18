@@ -18,6 +18,10 @@ import {
     UpdateUser,
     CategoryTShirt,
     CategoryPolo,
+    CategoryTrouser,
+    CategoryHoodie,
+    CategoryShirt,
+    PageCoding,
     Error404,
 } from '~/pages';
 
@@ -43,10 +47,14 @@ function App() {
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/sign_up" element={<Signup />} />
                                 <Route path="/shop" element={<Shop />} />
+                                <Route path="/category_shirt" element={<CategoryShirt />} />
                                 <Route path="/category_tshirt" element={<CategoryTShirt />} />
                                 <Route path="/category_polo" element={<CategoryPolo />} />
+                                <Route path="/category_hoodie" element={<CategoryHoodie />} />
+                                <Route path="/category_trouser" element={<CategoryTrouser />} />
                                 <Route path="/product/:id" element={<Product />} />
                                 <Route path="/cart" element={<Cart />} />
+                                <Route path="/page_loading" element={<PageCoding />} />
                                 <Route path="*" element={<Error404 />} />
                             </Routes>
                             <Footer />

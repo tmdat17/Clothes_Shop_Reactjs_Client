@@ -15,6 +15,7 @@ import ScrollingToHeader from '~/components/ScrollingToHeader';
 import UserService from '~/services/UserService';
 import OrderService from '~/services/OrderService';
 import OrderDetailService from '~/services/OrderDetailService';
+import axios from 'axios';
 
 function Cart() {
     const user = useSelector((state) => state.auth.login?.currentUser);
@@ -33,7 +34,71 @@ function Cart() {
     const [ward, setWard] = useState('');
     const [methodPayment, setMethodPayment] = useState('');
 
-    const [orderId, setOrderId] = useState('');
+    const [provinceApi, setProvinceApi] = useState([]);
+    const [provinceUpdated, setProvinceUpdated] = useState([]);
+    const [districtUpdated, setDistrictUpdated] = useState([]);
+    const [wardUpdated, setWardUpdated] = useState([]);
+    useEffect(() => {
+        const getData = async () => {
+            let response = await axios.get('https://provinces.open-api.vn/api/?depth=3');
+            return response;
+        };
+        getData()
+            .then((res) => {
+                setProvinceApi(res.data);
+            })
+            .catch((error) => console.log('api province:  ', error));
+    }, []);
+
+    useEffect(() => {
+        const updateProvince = () => {
+            provinceApi?.map((item) => {
+                if (item.name.includes('Thành phố')) {
+                    item.name = item.name.slice(10, item.name.length);
+                    setProvinceUpdated((prev) => [...prev, item]);
+                } else if (item.name.includes('Tỉnh')) {
+                    item.name = item.name.slice(5, item.name.length);
+                    setProvinceUpdated((prev) => [...prev, item]);
+                }
+            });
+        };
+        updateProvince();
+    }, [provinceApi]);
+
+    useEffect(() => {
+        const getDistrict = () => {
+            provinceUpdated?.map((item) => {
+                if (item.name === city) {
+                    setDistrictUpdated([]);
+                    item.districts.map((item_district) => {
+                        setDistrictUpdated((prev) => [...prev, item_district]);
+                    });
+                    return;
+                }
+            });
+        };
+        getDistrict();
+    }, [city]);
+
+    useEffect(() => {
+        const getWard = () => {
+            provinceUpdated?.map((item) => {
+                if (item.name === city) {
+                    item.districts.map((item_district) => {
+                        if (item_district.name === district) {
+                            setWardUpdated([]);
+                            item_district.wards.map((item_ward) => {
+                                setWardUpdated((prev) => [...prev, item_ward]);
+                            });
+                            return;
+                        }
+                    });
+                }
+            });
+        };
+        getWard();
+    }, [district]);
+
     console.log('myCart khi re render  ', cart);
 
     // const itemLocal = JSON.parse(localStorage.getItem('listProductInCart'));
@@ -69,6 +134,12 @@ function Cart() {
     const changeCity = (e) => {
         setCity(e.target.value);
     };
+    const changeDistrict = (e) => {
+        setDistrict(e.target.value);
+    };
+    const changeWard = (e) => {
+        setWard(e.target.value);
+    };
 
     const changeMethodPayment = (e) => {
         setMethodPayment(e.target.value);
@@ -82,6 +153,7 @@ function Cart() {
             birthday,
             address,
             city,
+            district,
             ward,
             methodPayment,
             totalPrice: helper.formatProductPrice(total).split('₫')[0] + 'vnd',
@@ -268,72 +340,13 @@ function Cart() {
                                                     className={clsx(styles.inforShip)}
                                                     onClick={(e) => changeCity(e)}
                                                 >
-                                                    <option value="">Chọn thành phố</option>
-                                                    <option value="An Giang">An Giang</option>
-                                                    <option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
-                                                    <option value="Bắc Giang">Bắc Giang</option>
-                                                    <option value="Bắc Kạn">Bắc Kạn</option>
-                                                    <option value="Bạc Liêu">Bạc Liêu</option>
-                                                    <option value="Bắc Ninh">Bắc Ninh</option>
-                                                    <option value="Bến Tre">Bến Tre</option>
-                                                    <option value="Bình Định">Bình Định</option>
-                                                    <option value="Bình Dương">Bình Dương</option>
-                                                    <option value="Bình Phước">Bình Phước</option>
-                                                    <option value="Bình Thuận">Bình Thuận</option>
-                                                    <option value="Bình Thuận">Bình Thuận</option>
-                                                    <option value="Cà Mau">Cà Mau</option>
-                                                    <option value="Cao Bằng">Cao Bằng</option>
-                                                    <option value="Đắk Lắk">Đắk Lắk</option>
-                                                    <option value="Đắk Nông">Đắk Nông</option>
-                                                    <option value="Điện Biên">Điện Biên</option>
-                                                    <option value="Đồng Nai">Đồng Nai</option>
-                                                    <option value="Đồng Tháp">Đồng Tháp</option>
-                                                    <option value="Đồng Tháp">Đồng Tháp</option>
-                                                    <option value="Gia Lai">Gia Lai</option>
-                                                    <option value="Hà Giang">Hà Giang</option>
-                                                    <option value="Hà Nam">Hà Nam</option>
-                                                    <option value="Hà Tĩnh">Hà Tĩnh</option>
-                                                    <option value="Hải Dương">Hải Dương</option>
-                                                    <option value="Hậu Giang">Hậu Giang</option>
-                                                    <option value="Hòa Bình">Hòa Bình</option>
-                                                    <option value="Hưng Yên">Hưng Yên</option>
-                                                    <option value="Khánh Hòa">Khánh Hòa</option>
-                                                    <option value="Kiên Giang">Kiên Giang</option>
-                                                    <option value="Kon Tum">Kon Tum</option>
-                                                    <option value="Lai Châu">Lai Châu</option>
-                                                    <option value="Lâm Đồng">Lâm Đồng</option>
-                                                    <option value="Lạng Sơn">Lạng Sơn</option>
-                                                    <option value="Lào Cai">Lào Cai</option>
-                                                    <option value="Long An">Long An</option>
-                                                    <option value="Nam Định">Nam Định</option>
-                                                    <option value="Nghệ An">Nghệ An</option>
-                                                    <option value="Ninh Bình">Ninh Bình</option>
-                                                    <option value="Ninh Thuận">Ninh Thuận</option>
-                                                    <option value="Phú Thọ">Phú Thọ</option>
-                                                    <option value="Quảng Bình">Quảng Bình</option>
-                                                    <option value="Quảng Bình">Quảng Bình</option>
-                                                    <option value="Quảng Ngãi">Quảng Ngãi</option>
-                                                    <option value="Quảng Ninh">Quảng Ninh</option>
-                                                    <option value="Quảng Trị">Quảng Trị</option>
-                                                    <option value="Sóc Trăng">Sóc Trăng</option>
-                                                    <option value="Sơn La">Sơn La</option>
-                                                    <option value="Tây Ninh">Tây Ninh</option>
-                                                    <option value="Thái Bình">Thái Bình</option>
-                                                    <option value="Thái Nguyên">Thái Nguyên</option>
-                                                    <option value="Thanh Hóa">Thanh Hóa</option>
-                                                    <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
-                                                    <option value="Tiền Giang">Tiền Giang</option>
-                                                    <option value="Trà Vinh">Trà Vinh</option>
-                                                    <option value="Tuyên Quang">Tuyên Quang</option>
-                                                    <option value="Vĩnh Long">Vĩnh Long</option>
-                                                    <option value="Vĩnh Phúc">Vĩnh Phúc</option>
-                                                    <option value="Yên Bái">Yên Bái</option>
-                                                    <option value="Phú Yên">Phú Yên</option>
-                                                    <option value="Tp.Cần Thơ">Cần Thơ</option>
-                                                    <option value="Tp.Đà Nẵng">Đà Nẵng</option>
-                                                    <option value="Tp.Hải Phòng">Hải Phòng</option>
-                                                    <option value="Tp.Hà Nội">Hà Nội</option>
-                                                    <option value="TP  HCM">HCM</option>
+                                                    {provinceUpdated?.map((item, index) => {
+                                                        return (
+                                                            <option key={index} value={item.name}>
+                                                                {item.name}
+                                                            </option>
+                                                        );
+                                                    })}
                                                 </select>
                                             </Col>
                                         </Row>
@@ -345,14 +358,20 @@ function Cart() {
                                                 <span>*</span>
                                             </Col>
                                             <Col xs={12} sm={12} md={8}>
-                                                <input
-                                                    className={clsx(styles.inforShip)}
-                                                    value={district}
-                                                    type="text"
+                                                <select
                                                     required={true}
-                                                    id="district"
-                                                    onChange={(e) => setDistrict(e.target.value)}
-                                                />
+                                                    defaultValue=""
+                                                    className={clsx(styles.inforShip)}
+                                                    onClick={(e) => changeDistrict(e)}
+                                                >
+                                                    {districtUpdated?.map((item, index) => {
+                                                        return (
+                                                            <option key={index} value={item.name}>
+                                                                {item.name}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </select>
                                             </Col>
                                         </Row>
                                     </div>
@@ -363,14 +382,20 @@ function Cart() {
                                                 <span>*</span>
                                             </Col>
                                             <Col xs={12} sm={12} md={8}>
-                                                <input
-                                                    className={clsx(styles.inforShip)}
-                                                    value={ward}
-                                                    type="text"
+                                                <select
                                                     required={true}
-                                                    id="ward"
-                                                    onChange={(e) => setWard(e.target.value)}
-                                                />
+                                                    defaultValue=""
+                                                    className={clsx(styles.inforShip)}
+                                                    onClick={(e) => changeWard(e)}
+                                                >
+                                                    {wardUpdated?.map((item, index) => {
+                                                        return (
+                                                            <option key={index} value={item.name}>
+                                                                {item.name}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </select>
                                             </Col>
                                         </Row>
                                     </div>

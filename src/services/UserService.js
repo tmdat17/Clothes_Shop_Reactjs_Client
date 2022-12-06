@@ -11,7 +11,7 @@ const url_changeItemCart = 'http://localhost:5000/user/changeItemCart/';
 const UserSerive = {
     getOneUser: async (id) => {
         try {
-            let response = axios.get(url_get_one_user + id);
+            let response = await axios.get(url_get_one_user + id);
             return response;
         } catch (error) {
             console.log(error);

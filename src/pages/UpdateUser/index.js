@@ -86,7 +86,9 @@ function UpdateUser() {
                         >
                             Thay đổi thông tin
                         </Link>
-
+                        <Link to="/order_user" className={clsx(styles.titleLeft)} style={{ display: 'block' }}>
+                            Lịch sử đặt hàng
+                        </Link>
                         <button onClick={handleLogout} className={clsx(styles.btnLogout)}>
                             Đăng xuất
                         </button>

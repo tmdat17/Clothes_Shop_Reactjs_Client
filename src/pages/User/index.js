@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 import clsx from 'clsx';
 import styles from './user.module.scss';
-import UserSerive from '~/services/UserService';
+import UserService from '~/services/UserService';
 import { createAxios } from '~/createInstance';
 import { logoutSuccess } from '~/redux/authSlice';
 import { CartContext } from '../../Contexts/CartContext';
@@ -25,7 +25,7 @@ function User() {
             navigate('/login');
         } else navigate('/user');
         if (user) {
-            UserSerive.getOneUser(user?._id)
+            UserService.getOneUser(user?._id)
                 .then((res) => setInforUser(res.data))
                 .catch((error) => console.log(error));
         }
@@ -37,7 +37,7 @@ function User() {
     const idUser = user?._id;
     const accessToken = user?.accessToken;
     const handleLogout = () => {
-        UserSerive.logoutUser(dispatch, idUser, navigate, accessToken, axiosJWT);
+        UserService.logoutUser(dispatch, idUser, navigate, accessToken, axiosJWT);
         setMyCart([]);
     };
 
@@ -67,6 +67,9 @@ function User() {
                             style={{ display: 'block' }}
                         >
                             Thay đổi thông tin
+                        </Link>
+                        <Link to="/order_user" className={clsx(styles.titleLeft)} style={{ display: 'block' }}>
+                            Lịch sử đặt hàng
                         </Link>
 
                         <button onClick={handleLogout} className={clsx(styles.btnLogout)}>

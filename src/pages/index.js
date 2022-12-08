@@ -14,3 +14,4 @@ export { default as PageCoding } from '~/pages/PageCoding';
 export { default as Cart } from '~/pages/Cart';
 export { default as User } from '~/pages/User';
 export { default as UpdateUser } from '~/pages/UpdateUser';
+export { default as OrderOfUser } from '~/pages/OrderOfUser';

@@ -15,3 +15,4 @@ export { default as Cart } from '~/pages/Cart';
 export { default as User } from '~/pages/User';
 export { default as UpdateUser } from '~/pages/UpdateUser';
 export { default as OrderOfUser } from '~/pages/OrderOfUser';
+export { default as OrderDetail } from '~/pages/OrderDetail';

@@ -21,9 +21,10 @@ import {
     CategoryTrouser,
     CategoryHoodie,
     CategoryShirt,
+    OrderOfUser,
+    OrderDetail,
     PageCoding,
     Error404,
-    OrderOfUser,
 } from '~/pages';
 
 import { CartContext } from './Contexts/CartContext';
@@ -45,6 +46,7 @@ function App() {
                                 <Route path="/about_us" element={<AboutUs />} />
                                 <Route path="/user" element={<User />} />
                                 <Route path="/order_user" element={<OrderOfUser />} />
+                                <Route path="/order_detail/:id" element={<OrderDetail />} />
                                 <Route path="/update/:id" element={<UpdateUser />} />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/sign_up" element={<Signup />} />

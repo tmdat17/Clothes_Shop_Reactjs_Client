@@ -8,6 +8,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 https://user-images.githubusercontent.com/58431941/226152479-34e91a75-0d58-4139-bd4e-09278b2c4fdc.mp4
 
 
+## Demo Web Admin 
+https://github.com/tmdat17/Clothes_Shop_Reactjs_FULL_MERN/tree/main/admin
 
 ## Available Scripts
 
